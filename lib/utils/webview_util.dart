@@ -427,7 +427,9 @@ class WebviewUtil {
             body.toString(),
             overflow: TextOverflow.clip,
             style: TextStyle(
-              color: textColor != null ? Util.hexToColor(textColor) : null,
+              color: textColor != null && textColor != "null"
+                  ? Util.hexToColor(textColor)
+                  : null,
             ),
           );
   }
