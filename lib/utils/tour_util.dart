@@ -78,7 +78,7 @@ class TourUtil {
 
     final context = keyTarget.currentContext;
     if (context == null) {
-      return const CustomTargetContentPosition(
+      return CustomTargetContentPosition(
         top: 0,
       );
     }
