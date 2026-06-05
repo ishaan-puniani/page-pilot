@@ -19,6 +19,12 @@ class WebviewUtil {
 
   static const String bodyStartsWithHtmlString = "\u003C!DOCTYPE html";
 
+  static bool isHtml(String? body) {
+    if (body == null) return false;
+    final trimmed = body.trimLeft();
+    return trimmed.startsWith('<');
+  }
+
   static String calculateHtmlDocDimensions = '''
 (function() {
   try {
@@ -306,7 +312,7 @@ class WebviewUtil {
       String? contentwidth,
       StepModel? step,
       GlobalKey? targetKey}) {
-    return body.toString().startsWith(WebviewUtil.bodyStartsWithHtmlString)
+    return WebviewUtil.isHtml(body.toString())
         ? contentHeight == null || contentHeight == "0"
             ? ValueListenableBuilder<Map<String, double>>(
                 valueListenable: sizeNotifier,
@@ -443,7 +449,7 @@ class WebviewUtil {
     if (url != null) {
       WebviewUtil.loadUrl(url);
     }
-    if (body.toString().startsWith(bodyStartsWithHtmlString)) {
+    if (WebviewUtil.isHtml(body)) {
       WebviewUtil.loadHtml(body, tourWebViewController: tourWebViewController);
     }
   }

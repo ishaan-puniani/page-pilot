@@ -111,8 +111,7 @@ class PagePilot {
                                   ),
                                 )
                               : const SizedBox(),
-                          body.toString().startsWith(
-                                  WebviewUtil.bodyStartsWithHtmlString)
+                          WebviewUtil.isHtml(body.toString())
                               ? SizedBox(
                                   height: 50,
                                   width: 340,
@@ -225,9 +224,7 @@ class PagePilot {
                     : const SizedBox(),
                 const SizedBox(height: 16),
                 body != null
-                    ? body
-                            .toString()
-                            .startsWith(WebviewUtil.bodyStartsWithHtmlString)
+                    ? WebviewUtil.isHtml(body.toString())
                         ? Container(
                             height: 200,
                             constraints: const BoxConstraints(
@@ -313,9 +310,7 @@ class PagePilot {
               child: Stack(
                 children: [
                   body != null
-                      ? body
-                              .toString()
-                              .startsWith(WebviewUtil.bodyStartsWithHtmlString)
+                      ? WebviewUtil.isHtml(body.toString())
                           ? SizedBox(
                               height: 200,
                               width: 200,

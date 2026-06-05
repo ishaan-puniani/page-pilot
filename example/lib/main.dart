@@ -113,6 +113,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  bool _isResetting = false;
   int _currentpage = 0;
   GlobalKey keyDialog = GlobalKey();
   GlobalKey keyBeacon = GlobalKey();
@@ -194,9 +195,12 @@ class _AppState extends State<App> {
           "#dialog": keyDialog,
           "#keyDashboardProfileIcon": keyDashboardProfileIcon,
           "#keyAccStats": keyAccStats,
+          "#keyAccTransaction": keyAccTransaction,
+          "#keyAccAccounts": keyAccAccounts,
+          "#keyAccChatbot": keyAccChatbot,
         },
         context: context,
-        screen: "new_bottom-bar",
+        screen: "/new_bottom-bar",
         showNextAndPreviousButtons: true);
   }
 
@@ -239,16 +243,35 @@ class _AppState extends State<App> {
               child: Text('Running on: ${widget.platformVersion}\n'),
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RR(),
-                  ),
-                );
-                // widget.pagepilotPlugin.resetAllTour(userId);
-              },
-              child: const Text("Tap     Me!"),
+              onPressed: _isResetting
+                  ? null
+                  : () async {
+                      setState(() {
+                        _isResetting = true;
+                      });
+                      try {
+                        await widget.pagepilotPlugin.resetAllTour(userId);
+                      } finally {
+                        if (mounted) {
+                          setState(() {
+                            _isResetting = false;
+                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RR(),
+                            ),
+                          );
+                        }
+                      }
+                    },
+              child: _isResetting
+                  ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Text("Tap     Me!"),
             ),
             const SizedBox(height: 20),
             Row(

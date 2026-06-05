@@ -92,16 +92,17 @@ class _PagePilotBannerState extends State<PagePilotBanner> {
         final jsonBody = jsonDecode(response.body);
         bannerResponse = AppBannerResponse.fromJson(jsonBody);
 
-        setState(() {
-          // _mediaUrls = bannerResponse.rows.map((item) {
-          //   if (item.content.video.isNotEmpty) {
-          //     return item.content.video.first.publicUrl;
-          //   } else if (item.content.image.isNotEmpty) {
-          //     return item.content.image.first.publicUrl;
-          //   }
-          //   return ''; // Fallback
-          // }).toList();
-          _mediaUrls = bannerResponse!.rows!
+        if (mounted) {
+          setState(() {
+            // _mediaUrls = bannerResponse.rows.map((item) {
+            //   if (item.content.video.isNotEmpty) {
+            //     return item.content.video.first.publicUrl;
+            //   } else if (item.content.image.isNotEmpty) {
+            //     return item.content.image.first.publicUrl;
+            //   }
+            //   return ''; // Fallback
+            // }).toList();
+            _mediaUrls = bannerResponse!.rows!
               .map((item) {
                 if (item.content!.video!.isNotEmpty) {
                   return item.content!.video!.first.publicUrl;
@@ -123,6 +124,7 @@ class _PagePilotBannerState extends State<PagePilotBanner> {
 
           _isLoading = false;
         });
+        }
         return bannerResponse;
       } else {}
     } catch (e) {}
@@ -261,7 +263,9 @@ class _PagePilotBannerState extends State<PagePilotBanner> {
       //   curve: Curves.easeInOut,
       // );
       swiperController.move(_currentPage);
-      setState(() {}); // update _currentPage for texts
+      if (mounted) {
+        setState(() {}); // update _currentPage for texts
+      }
     });
   }
 

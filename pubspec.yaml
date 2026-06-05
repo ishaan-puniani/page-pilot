@@ -1,6 +1,6 @@
 name: pagepilot
 description: "This package will be used for quick and easy integration with PagePilot in your app."
-version: 0.0.9+37
+version: 0.0.9+38
 homepage: "https://pagepilot.fabbuilder.com"
 
 environment:
